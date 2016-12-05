@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Settings</title>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<script src="js/menu.js"></script>
+<script>showSubNavBar('Settings')</script>
+<div class="container">
+    <div class="card-panel light-primary-color" id="settingCard">
+        <div class="row">
+            <form class="col s12" id="form">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select id="language" onchange="updateLanguage()">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                        </select>
+                        <label>Language</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="cordova.js"></script>
+<script src="js/index.js"></script>
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/globalization.js"></script>
+<script>
+const l = new Loader();
+
+function updateLanguage()
+{
+    const lang = $('#language').val();
+    setItem('lang',lang);
+    redirect('settings.html');
+}
+
+function getLanguage()
+{
+    $('select').material_select('destroy');
+	const lang = getItem('lang');
+    let languagesOptions = '';
+    if(lang == 'es')
+    {
+        languagesOptions += `<option value="en">${getTranslatedWord('English')}</option><option value="es" selected>${getTranslatedWord('Spanish')}</option>`;
+    } else {
+        languagesOptions += `<option value="en" selected>${getTranslatedWord('English')}</option><option value="es">${getTranslatedWord('Spanish')}</option>`;
+    }
+	$('#language').html(languagesOptions);
+	$('select').material_select();
+}
+
+
+$(document).ready(function(){
+    $(".button-collapse").sideNav();
+    getLanguage();
+});
+
+</script>
+</body>
+</html>

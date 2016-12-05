@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+	<title>Password Generator</title>
+</head>
+<body>
+<script src="js/menu.js"></script>
+<div class="container" id="main">
+    <br/>
+    <div class="row">
+        <div class="col s12 center-align">
+            <div class="center-align" >
+                <img class="responsive-img" id="userImg" src="img/logo.png">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form class="col s12" id="form">
+            <div class="row">
+                <div class="input-field col s12">
+                    <select id="typeCharacters" onchange="setTypeOption()">
+                    </select>
+                    <label for="typeCharacters">Options</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <label><span>Length</span> - <span id="lengthValue">14</span></label>
+                </div>
+                <div class="input-field col s12 valign-wrapper" id="divRange">
+                    <div class="col s1 right-align valign">
+                        <span onclick="$('#longPass').val(8);setLengthValue();">8</span>
+                    </div>
+                    <div class="col s1 left-align valign">
+                        <span onclick="$('#longPass').val((parseInt($('#longPass').val()) - 1));setLengthValue();"><i class="material-icons iconRange">chevron_left</i></span>
+                    </div>
+                    <p class="range-field col s8">
+                        <input type="range" id="longPass" min="8" max="60" value="14" onchange="setLengthValue();"/>
+                    </p>
+                    <div class="col s1 center-align valign">
+                        <span onclick="$('#longPass').val((parseInt($('#longPass').val()) + 1));setLengthValue();"><i class="material-icons iconRange">chevron_right</i></span>
+                    </div>
+                    <div class="col s1 left-align valign">
+                        <span onclick="$('#longPass').val(60);setLengthValue();">60</span>
+                    </div>
+                </div>
+            </div>
+            <div class="center-align">
+                <button class="btn waves-effect accent-color" type="button" name="action" onclick="generate();"><span>Generate</span>
+                    <i class="material-icons right">done</i>
+                </button>
+                <button class="btn waves-effect accent-color showGenerate" type="button" name="action" id="saveBtn" onclick="savePass();"><span>Save</span>
+                    <i class="material-icons right">save</i>
+                </button>
+            </div>
+        </form>
+        </div>
+        <div class="divider-color showGenerate">
+            <hr>
+        </div>
+        <div class="row showGenerate">
+            <div class="col s12 center-align">
+                <div class="center-align" >
+                    <h5 class="dark-primary-text">Result</h5>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="card-panel divider-primary-color center-align">
+                    <span class="dark-primary-text" id="passResult">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
+
+<script src="cordova.js"></script>
+<script src="js/index.js"></script>
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/globalization.js"></script>
+<script defer>
+const l = new Loader();
+
+function setTypeOption()
+{
+    const valTypeOption = $('#typeCharacters').val();
+    setItem('typeOption',valTypeOption);
+}
+
+function getTypes()
+{
+    $('select').material_select('destroy');
+    const typeOptionValue = getItem('typeOption');
+    let typesOptions = '';
+    if(typeOptionValue == '1')
+    {
+        typesOptions += `<option value="0"><span>${getTranslatedWord('Characters, numbers and symbols')}</span></option><option value="1" selected><span>${getTranslatedWord('Characters and numbers')}</span></option>`;
+    } else {
+        typesOptions += `<option value="0" selected><span>${getTranslatedWord('Characters, numbers and symbols')}</span></option><option value="1"><span>${getTranslatedWord('Characters and numbers')}</span></option>`;
+    }
+    
+	$('#typeCharacters').html(typesOptions);
+	$('select').material_select();
+}
+
+$(document).ready(function(){
+    $(".button-collapse").sideNav();
+    $('.showGenerate').hide();
+    getTypes();
+});
+</script>
+</body>
+</html>
